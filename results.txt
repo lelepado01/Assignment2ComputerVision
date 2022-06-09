@@ -1,0 +1,18 @@
+
+Feature extractors (Alone)
+
+			Features per Frame	|	Average FPS
+- FAST: 	23323.17			|	5.43
+- GFTT: 	25.0				|	4.26
+-  ORB: 	1000.0				|	5.72
+- SIFT: 	3339.05				|	0.65
+
+
+Feature Tracking
+
+								Features per Frame	|	Average FPS
+- GFTT + LKOF: 					31.08				|	7.41
+-  ORB + BFMatcher: 			1000.0				|	3.53
+-  ORB + Flann Matcher: 		1000.0				|	3.42
+- SIFT + BFMatcher: 			3471.45				|	0.56
+- SIFT + Flann Matcher: 		3557.33				|	0.49

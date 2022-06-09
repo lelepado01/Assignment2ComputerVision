@@ -1,0 +1,15 @@
+The literature has shown a large number of algorithms for feature detection in images. 
+The goal of the assignment is to implement and test the performances of at least 
+two different feature detectors (see for example SIFT, SURF, ORB and similar)
+complemented with a tracking algorithm, as for example the Good Features to Track, Kalman, etc. 
+
+You will be provided with a test video to be used for the evaluation. 
+
+The delivery consists of: 
+
+    source code
+    short report with implementation and validation details, as well as a commentary on the obtained results
+    a short videoclip showing the output
+    a presentation in the form of a short video (max 4 min) in which you illustrate the methodology you have followed and the obtained results.
+
+For the presentation video, please DO NOT upload the video directly. Provide instead a link to YouTube/Video/GDrive source. 

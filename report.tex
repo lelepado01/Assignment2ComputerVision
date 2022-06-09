@@ -1,0 +1,131 @@
+\documentclass[conference]{IEEEtran}
+
+\usepackage{graphicx}
+\usepackage{textcomp}
+\usepackage{xcolor}
+\usepackage{hyperref}
+\def\BibTeX{{\rm B\kern-.05em{\sc i\kern-.025em b}\kern-.08em
+    T\kern-.1667em\lower.7ex\hbox{E}\kern-.125emX}}
+\begin{document}
+
+\title{Feature Selector and Tracker \\ Assignment 2}
+
+\author{\IEEEauthorblockN{Gabriele Padovani}
+\IEEEauthorblockA{\textit{Artificial\ Intelligence\ Systems} \\Trento, Italy \\ \texttt{gabriele.padovani@studenti.unitn.it}}}
+
+\maketitle
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{Introduction}
+
+To offer a quantitative estimate of the performance of the extractors used, as well as of the tracking, 
+the average frames per second achieved during execution is calculated. This metric, though  not perfect 
+gives and idea of how performant an extractor is compared to the others.
+Since the amount of features found by different algorithms may change, a secondary metric is calculated, 
+keeping track of how many points are returned for each frame.
+
+It is important to stress that a higher number of points found does not imply that the feature 
+extractor is better, as, for example with FAST, tens of thousands of points returned render 
+real-time tracking infeasible.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{Feature Selector approaches used}
+
+The feature extractors evaluated for this second Computer Vision Assignment are: 
+\begin{itemize}
+	\item \textbf{SIFT}: applies increasingly intense Gaussian filter to the reference image, and looks for maximum and minimum value points, after performing pixel-wise difference.
+	\item \textbf{FAST}: corner detector, compares pixel values in a specified radius, and is designed to offer really high performance; 
+	\item \textbf{ORB}: similar to FAST, but also takes into account the rotation of features;
+	\item \textbf{Good Features to Track}: compares the diversity matrices of neighbouring pixels, looking for points  with strong eigenvalue, both in the x and y components.
+\end{itemize}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{Trackers used} 
+
+To offer tracking capability, Lukas Kanade Optical Flow was used in conjunction with Good features to track, 
+while SIFT and ORB were both tested with Opencv's Brute Force matcher and Flann-based matcher.
+
+The former works by refining an initial estimate of a displacement vector, taken from the image at very low resolution, 
+and corrects it by checking it against the same image  at increasingly higher definition.
+
+On the other hand, the brute force matcher works by comparing, for each feature in the first image, 
+all the points in the second one, and returning the best match.
+The Flann-based matcher promises instead higher performance  on large sets of features, 
+by learning on a set of descriptors, and utilizing a more efficient type of distance metric, 
+to quickly exclude false matches.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{Performance comparison}
+
+As explained in the introductory section, two metrics were calculated, to offer some kind 
+of quantitative evaluation of these algorithms:  
+
+\begin{center}
+	\textbf{Feature extractors (Alone)}\\
+	\begin{tabular}{||c c c||} 
+	 \hline
+	 & Features per Frame & Average FPS \\ [0.5ex] 
+	 \hline\hline
+	 FAST & 23323.17 & 5.43 \\ 
+	 \hline
+	 GFTT & 25.0 & 4.26 \\
+	 \hline
+	 ORB & 1000.0 & 5.72 \\
+	 \hline
+	 SIFT & 3339.3 & 0.65 \\
+	 \hline
+	\end{tabular}
+\end{center}
+
+
+\begin{center}
+	\textbf{Feature Tracking}\\
+	\begin{tabular}{||c c c||} 
+	 \hline
+	 & Features per Frame & Average FPS \\ [0.5ex] 
+	 \hline\hline
+	 GFTT + LKOF & 31.08 & 7.41 \\ 
+	 \hline
+	 ORB + BFMatcher & 1000.0 & 3.53 \\
+	 \hline
+	 ORB + Flann Matcher & 1000.0 & 3.42 \\
+	 \hline
+	 SIFT + BFMatcher & 3471.45 & 0.56 \\
+	 \hline
+	 SIFT + Flann Matcher & 3557.33 & 0.49 \\
+	 \hline
+	\end{tabular}
+\end{center}
+
+Something to note is that the performance of the optical filter is higher then just Good Features to Track alone, because in this test the extractor 
+is called less often, so the tracking algorithm does most of the work. 
+In the test with just point retrieval, the extractor function is called every frame.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{Template Matching Experiments}
+
+To conclude, some experiments have been done with Opencv's template matcher, although not very effectively. 
+The matcher seems to find some counters, but returns an offset position. My guess is that this is 
+likely due to the large amount of similar objects in the scene, or to the uniformity in color of the video. 
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{Links}
+
+\begin{itemize}
+    \item \href{http://www.overleaf.com}{Github} 
+    \item \href{https://drive.google.com/file/d/1OssPwOR97STaiHRiAeliSH2cpHP-4XCJ/view?usp=sharing}{Short Output Clips} 
+    \item \href{https://drive.google.com/file/d/1r-y5-ALC4fAHzOlGfd5zgIg0w363ghtm/view?usp=sharing}{Video Presentation} 
+\end{itemize}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+\end{document}
